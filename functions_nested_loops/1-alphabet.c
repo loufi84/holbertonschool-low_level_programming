@@ -7,13 +7,13 @@
 
 void print_alphabet(void)
 {
-	char str[] = "abcdefghijklmnopqrstuvwxyz\n";
-	int i = 0;
+	char c = 'a';
 
-	for (; str[i] != '\0'; i++)
+	for (; c <= 'z'; i++)
 	{
-		_putchar(str[i]);
+		_putchar(c);
 	}
 
-	return (0);
+	_putchar('\n');
+
 }
