@@ -1,7 +1,11 @@
 #include<stdio.h>
 /**
- * This is a simple programm, using th puts function to print a string
+ * main - Entry point
+ *
+ * Description : This is a simple programm, using th puts function to print a string
  * to the stdout
+ *
+ * Return: Always 0 (Success)
  */
 
 
