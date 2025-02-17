@@ -2,7 +2,7 @@
 /**
  * main - Entry point
  *
- * Description : This is a simple programm, using the puts 
+ * Description : This is a simple programm, using the puts
  * function to print a string
  * to the stdout
  *
