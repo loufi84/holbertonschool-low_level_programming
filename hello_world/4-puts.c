@@ -2,7 +2,8 @@
 /**
  * main - Entry point
  *
- * Description : This is a simple programm, using th puts function to print a string
+ * Description : This is a simple programm, using the puts 
+ * function to print a string
  * to the stdout
  *
  * Return: Always 0 (Success)
