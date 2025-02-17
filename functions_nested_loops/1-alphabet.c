@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * main - Entry point
+ * print_alphabet - Entry point
  * Return: Always 0 (Success)
  */
 
-int main(void)
+int print_alphabet(void)
 {
 	char str[] = "abcdefghijklmnopqrstuvwxyz\n";
 	int i = 0;
