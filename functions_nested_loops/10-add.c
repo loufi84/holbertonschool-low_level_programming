@@ -23,5 +23,7 @@ int add(int a, int b)
 		_putchar('0' + result);
 	}
 
+	_putchar('\n');
+
 	return (result);
 }
