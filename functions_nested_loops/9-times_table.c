@@ -1,4 +1,4 @@
-#include "main/h"
+#include "main.h"
 
 /**
  * time_tables - print 9 times tables
