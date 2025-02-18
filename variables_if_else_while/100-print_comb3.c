@@ -7,27 +7,22 @@
 
 int main(void)
 {
-	int i = 1;
-	int first_digit = 0;
-	int last_digit = 0;
+	int first_digit;
+	int last_digit;
 
-	for (; i < 100; i++)
+	for (first_digit = 0; first_digit < 9; first_digit++)
 	{
-		first_digit = i / 10;
-		last_digit = i % 10;
-
-		if (first_digit < last_digit)
+		for (last_digit = first_digit + 1; last_digit < 10; last_digit++)
 		{
 			putchar(48 + first_digit);
 			putchar(48 + last_digit);
-		}
 
-		if (first_digit != 8 || (first_digit == 8 && last_digit != 9) )
-		{
-			putchar(',');
-			putchar(' ');
+			if (first_digit != 8 || last_digit != 9)
+			{
+				putchar(',');
+				putchar(' ');
+			}
 		}
-
 	}
 
 	putchar('\n');
