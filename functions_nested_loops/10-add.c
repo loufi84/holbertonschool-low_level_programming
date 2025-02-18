@@ -18,12 +18,6 @@ int add(int a, int b)
 		_putchar('0' + (result / 10));
 		_putchar('0' + (result % 10));
 	}
-	else
-	{
-		_putchar('0' + result);
-	}
-
-	_putchar('\n');
 
 	return (result);
 }
