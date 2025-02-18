@@ -19,5 +19,4 @@ int add(int a, int b)
 		_putchar('0' + (result % 10));
 	}
 
-	return (result);
 }
