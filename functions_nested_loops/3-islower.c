@@ -2,7 +2,7 @@
 
 /**
  * _islower - returns 1 if a letter is lowercase, 0 if not
- * @c - entry parameter from main
+ * @c: entry parameter from main
  * Return: 1 for lowercase else 0
  */
 
