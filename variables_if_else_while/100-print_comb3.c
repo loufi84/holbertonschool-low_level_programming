@@ -22,7 +22,7 @@ int main(void)
 			putchar(48 + last_digit);
 		}
 
-		if (first_digit != 8 || last_digit != 9)
+		if (first_digit != 8 || (first_digit == 8 && last_digit != 9) )
 		{
 			putchar(',');
 			putchar(' ');
