@@ -15,11 +15,11 @@ int main(void)
 	unsigned long sum = 0;
 
 	printf("%lu", fib2);
+	next = fib1 + fib2;
 
 	while (next < 4000000)
 	{
 
-		next = fib1 + fib2;
 
 		if (next % 2 == 0)
 		{
