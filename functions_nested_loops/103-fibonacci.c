@@ -14,24 +14,22 @@ int main(void)
 	unsigned long next = 0;
 	unsigned long sum = 0;
 
-	printf("%lu", fib2);
-	next = fib1 + fib2;
 
-	while (next < 4000000)
+	while (fib2 < 4000000)
 	{
 
-
-		if (next % 2 == 0)
+		if (fib2 % 2 == 0)
 		{
-			sum += next;
+			sum += fib2;
 		}
+
+		next = fib1 + fib2;
 
 		fib1 = fib2;
 		fib2 = next;
 	}
 
-	printf("%lu", sum);
-	printf("\n");
+	printf("%lu\n", sum);
 
 	return (0);
 }
