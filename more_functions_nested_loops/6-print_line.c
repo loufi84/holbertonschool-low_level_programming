@@ -1,14 +1,14 @@
 #include "main.h"
 
 /**
- * print_lines - print a line
+ * print_line - print a line
  * Description: This function will print a line using
  * _ char n time
  * @n: numbers of time _ must be printed
  * Return: void
  */
 
-void print_lines(int n)
+void print_line(int n)
 {
 	while (n >= 0)
 	{
