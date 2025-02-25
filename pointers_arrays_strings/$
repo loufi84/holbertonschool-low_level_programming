@@ -1,0 +1,22 @@
+#include "main.h"
+
+/**
+ * string_toupper - changes lowercase to uppercase
+ * Return: char
+ * @: string to uppercase
+ */
+
+char *string_toupper(char *)
+{
+	int i = 0;
+
+	for (; (*(char *))[i] != '\0'; i++)
+	{
+		if ((*(char *))[i] >= 'a' && (*(char *))[i] <= 'z')
+		{
+			(*(char *))[i] -= 32;
+		}
+	}
+
+	return (char *);
+}
