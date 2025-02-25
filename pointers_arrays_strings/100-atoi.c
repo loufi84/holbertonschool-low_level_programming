@@ -9,7 +9,7 @@
 int _atoi(char *s)
 {
 	int i = 0;
-	int num = 0;
+	unsigned int num = 0;
 	int sign = 1;
 	int fnd_dig = 0;
 
