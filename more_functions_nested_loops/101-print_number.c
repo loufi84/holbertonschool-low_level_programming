@@ -8,7 +8,7 @@
 
 void print_number(int n)
 {
-	unsigned int num;
+	int num;
 	int divisor = 1;
 
 	if (n < 0)
