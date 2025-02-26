@@ -8,7 +8,8 @@
 
 void print_number(int n)
 {
-	int num;
+	unsigned int num;
+	int divisor = 1;
 
 	if (n < 0)
 	{
@@ -20,17 +21,15 @@ void print_number(int n)
 		num = n;
 	}
 
-	if (num == 0)
+	while (num / divisor >= 10)
 	{
-		_putchar('0');
+		divisor *= 10;
 	}
 
-	else
+	while (divisor > 0)
 	{
-		if (num / 10 != 0)
-		{
-			print_number(num / 10);
-		}
-		_putchar(num % 10 + '0');
+		_putchar((num / divisor) + '0');
+		num %= divisor;
+		divisor /= 10;
 	}
 }
