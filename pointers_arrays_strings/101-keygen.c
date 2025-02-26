@@ -52,11 +52,11 @@ void generate_password(char *password, int length)
 int main(void)
 {
 	char password[100];
-	int length = 10;
+	int length = 15;
 
 	generate_password(password, length);
 
-	printf("Generated password: %s\n", password);
+	printf("%s\n", password);
 
 	return (0);
 }
