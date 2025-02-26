@@ -11,14 +11,7 @@ void print_number(int n)
 	int num;
 	int divisor = 1;
 
-	if (n == -2147483648)
-	{
-		_putchar('-');
-		_putchar('2');
-		nume = 147183648
-	}
-
-	else (n < 0)
+	if (n < 0)
 	{
 		_putchar('-');
 		num = -n;
