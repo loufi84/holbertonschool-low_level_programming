@@ -16,25 +16,26 @@
 void generate_password(char *password, int length)
 {
 	int index, sum = 0;
+	int last_char;
 
 	/* Seed random number generator with current tim */
 	srand(time(NULL));
 
-	for (index = 0; index < length - 1; i++)
+	for (index = 0; index < length - 1; index++)
 	{
-		password[i] = rand() % 94 + 33;
-		sum += password[i];
+		password[index] = rand() % 94 + 33;
+		sum += password[index];
 	}
 
-	int last_char = TARGET_CHECKSUM - sum;
+	last_char = TARGET_CHECKSUM - sum;
 
 	while (last_char < 33 || last_char > 126)
 	{
 		sum = 0;
-		for (i = 0; i < length - 1; i++)
+		for (index = 0; index < length - 1; index++)
 		{
-			password[i] = rand() % 94 + 33;
-			sum += password[i];
+			password[index] = rand() % 94 + 33;
+			sum += password[index];
 		}
 		last_char = TARGET_CHECKSUM - sum;
 	}
