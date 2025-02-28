@@ -18,14 +18,18 @@ void print_hex(char *b, int size, int start)
 		{
 			printf("%02x", (unsigned char)b[start + j]);
 
-			if (j % 2 != 0)
+			if (j % 2 != 0 && j != 9)
 			{
 				printf(" ");
 			}
 		}
 		else
 		{
-			printf("   ");
+			printf("  ");
+			if (j % 2 != 0 && j != 9)
+			{
+				printf(" ");
+			}
 		}
 	}
 }
