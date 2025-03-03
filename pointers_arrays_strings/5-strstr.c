@@ -11,7 +11,7 @@
 char *_strstr(char *haystack, char *needle)
 {
 	int index = 0;
-	int check = 0;
+	int match_index = 0;
 
 	if (*needle == '\0')
 	{
@@ -20,13 +20,14 @@ char *_strstr(char *haystack, char *needle)
 
 	for (index = 0; haystack[index] != '\0'; index++)
 	{
-		if (haystack[index] == needle[check])
+		if (haystack[index] == needle[match_index])
 		{
+
 			int match = 1;
 
-			for (check = 1; needle[check] != '\0'; check++)
+			for (match_index = 1; needle[match_index] != '\0'; match_index++)
 			{
-				if (haystack[index + check] != needle[check])
+				if (haystack[index + match_index] != needle[match_index])
 				{
 					match = 0;
 					break;
