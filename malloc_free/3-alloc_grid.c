@@ -1,46 +1,43 @@
 #include "main.h"
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
 /**
- * alloc_grid - Allocate a memory for a 2D grid
- * @width: The width of the grid
- * @height: The height
- * Return: A pointer to 2D grid
+ * **alloc_grid - prints a grid of integers
+ * @width: width of the grid
+ * @height: height of the grid
+ * Return: Nothing.
  */
-
 int **alloc_grid(int width, int height)
 {
-	int **grid;
-	int index;
-
-	if (width <= 0 || height <= 0)
-	{
-		return (NULL);
-	}
-
-	grid = malloc(sizeof(int *) * height);
-	if (grid == NULL)
-	{
-		return (NULL);
-	}
-
-	for (index = 0; index < height; index++)
-	{
-		grid[index] = malloc(width * sizeof(int));
-		if (grid[index] == NULL)
-		{
-			while (index >= 0)
-			{
-				free(grid[index]);
-				index--;
-			}
-			free(grid);
-			return (NULL);
-		}
-
-		memset(grid[index], 0, width * sizeof(int));
-	}
-
-	return (grid);
+int i, j, k, l;
+int **a;
+if (width <= 0 || height <= 0)
+return (NULL);
+a = malloc(sizeof(int *) * height);
+if (a == NULL)
+{
+free(a);
+return (NULL);
+}
+for (i = 0; i < height; i++)
+{
+a[i] = malloc(sizeof(int) * width);
+if (a[i] == NULL)
+{
+for (j = i; j >= 0; j--)
+{
+free(a[j]);
+}
+free(a);
+return (NULL);
+}
+}
+for (k = 0; k < height; k++)
+{
+for (l = 0; l < width; l++)
+{
+a[k][l] = 0;
+}
+}
+return (a);
 }
