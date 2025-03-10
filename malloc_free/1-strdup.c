@@ -20,6 +20,8 @@ char *_strdup(char *str)
 	}
 
 	for (size = 0; str[size] != '\0'; size++)
+	{
+	}
 
 	dup = (char *)malloc(sizeof(char) * (size + 1));
 	if (dup == NULL)
@@ -31,6 +33,8 @@ char *_strdup(char *str)
 	{
 		dup[index] = str[index];
 	}
+
+	dup[index] = '\0';
 
 	return (dup);
 }

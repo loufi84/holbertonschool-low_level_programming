@@ -5,7 +5,7 @@
 /**
  * alloc_grid - Allocate a memory for a 2D grid
  * @width: The width of the grid
- * @height: Hte width
+ * @height: The height
  * Return: A pointer to 2D grid
  */
 

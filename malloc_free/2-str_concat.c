@@ -29,7 +29,7 @@ char *str_concat(char *s1, char *s2)
 
 	for (size2 = 0; s2[size2] != '\0'; size2++)
 
-	new_str = malloc(size1 + size2 + 1);
+	new_str = malloc(sizeof(char) * (size1 + size2 + 1));
 	if (new_str == NULL)
 	{
 		return (NULL);
@@ -42,11 +42,10 @@ char *str_concat(char *s1, char *s2)
 
 	for (index2 = 0; s2[index2] != '\0'; index2++)
 	{
-		new_str[index1] = s2[index2];
-		index1++;
+		new_str[index1 + index2] = s2[index2];
 	}
 
-	new_str[index1] = '\0';
+	new_str[size1 + size2] = '\0';
 
 	return (new_str);
 }
