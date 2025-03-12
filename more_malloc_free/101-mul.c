@@ -17,13 +17,26 @@ int is_digit_str(char *str)
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (!isdigit(str[i]))
-		{
+		if (str[i] < '0' || str[i] > '9')
 			/* If a char is not a digit return 0 */
 			return (0);
-		}
 	}
 	return (1);
+}
+
+/**
+ * _strlen - Calculate the length of a string
+ * @s: The string from which the length is calculated
+ * Return: Int length of string
+ */
+
+int _strlen(char *s)
+{
+	int len = 0;
+	while (s[len])
+		len++;
+
+	return (len);
 }
 
 /**
@@ -108,14 +121,14 @@ void print_prod(int *res, int size)
 		start++;
 
 	if (start == size)
-		printf("0\n");
+		_putchar('0');
 
 	else
 	{
 		for (i = start; i < size; i++)
-			printf("%d", res[i]);
+			_putchar(res[i] + '0');
 
-		printf("\n");
+		_putchar('\n');
 	}
 }
 
@@ -129,8 +142,8 @@ void print_prod(int *res, int size)
 /* Implementing a function to multiply two large numbers */
 void multiply(char *num1, char *num2)
 {
-	int len1 = strlen(num1);
-	int len2 = strlen(num2);
+	int len1 = _strlen(num1);
+	int len2 = _strlen(num2);
 	int tot_len = len1 + len2;
 	int *res = malloc(tot_len * sizeof(int));
 
