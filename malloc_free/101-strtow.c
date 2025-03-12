@@ -35,7 +35,7 @@ int count_words(char *str)
 }
 
 /**
- * word_len - Calculate the length of a word
+ * word_count - Calculate the length of a word
  * @str: The string to extract words from
  * Return: int length for word
  */
@@ -106,6 +106,8 @@ char **strtow(char *str)
 			word[j][k] = str[i + k];
 		}
 		word[j][k] = '\0';
+
+		i += word_len;
 	}
 
 	word[j] = NULL;
