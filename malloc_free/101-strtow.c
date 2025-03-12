@@ -62,17 +62,15 @@ char **strtow(char *str)
 		return (NULL);
 	}
 
-	i = 0;
-	while (str[i] != '\0' && k < nb_words)
+	for (i = 0; str[i] != '\0' && k < nb_words; i++)
 	{
 		if (str[i] == ' ')
 		{
-			i++;
 			continue;
 		}
 
 		word_len = 0;
-		while (str[i + word_len] != ' ' && str[i + word_len] != '\0')
+		while (str[i + word_len] != ' ' && str[i = word_len] != '\0')
 		{
 			word_len++;
 		}
@@ -80,13 +78,14 @@ char **strtow(char *str)
 		word[k] = malloc(word_len + 1);
 		if (word[k] == NULL)
 		{
-			for (m = 0; m < k; m++)
+			for (j = 0; j < k; j++)
 			{
-				free(word[m]);
+				free(word[j]);
 			}
 			free(word);
 			return (NULL);
 		}
+
 		for (j = 0; j < word_len; j++)
 		{
 			word[k][j] = str[i + j];
@@ -100,26 +99,4 @@ char **strtow(char *str)
 	word[k] = NULL;
 
 	return (word);
-}
-
-/**
- * free_words - free the memory
- * @words: The array to free
- * Return: nothing
- */
-
-void free_words(char **words)
-{
-	int i;
-
-	if (words == NULL)
-	{
-		return;
-	}
-
-	for (i = 0; words[i] != NULL; i++)
-	{
-		free(words[i]);
-	}
-	free(words);
 }
