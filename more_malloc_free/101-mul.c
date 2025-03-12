@@ -2,193 +2,165 @@
 #include <stdlib.h>
 
 /**
- * is_digit_str - Check if a string is a number
- * @str: The string to check
- * Return: 1 if the string is a number
+ * is_dig - Checks if a char is a digit
+ * @n: The char to check
+ * Return: The digit
  */
 
-/* Helper function to check if the string is composed of digits*/
-int is_digit_str(char *str)
+int is_dig(int n)
 {
-	int i;
-
-	for (i = 0; str[i] != '\0'; i++)
-	{
-		if (str[i] < '0' || str[i] > '9')
-			/* If a char is not a digit return 0 */
-			return (0);
-	}
-	return (1);
+	return (n >= '0' && n <= '9');
 }
 
 /**
  * _strlen - Calculate the length of a string
- * @s: The string from which the length is calculated
- * Return: Int length of string
+ * @str: The string to calculate
+ * Return: The length of the string
  */
 
-int _strlen(char *s)
+int _strlen(char *str)
 {
 	int len = 0;
-	while (s[len])
+
+	while (str[len])
 		len++;
 
 	return (len);
 }
 
 /**
- * init_result - Initialize the result (helper function)
- * @res: The result of multiplication
- * @size: The size of the number
- * Return: Nothing
+ * _calloc - Allocate memory and initialize it at 0
+ * @nmemb: The number of elements
+ * @size: The size of the array
+ * Return: A pointer to the allocated memory
  */
 
-void init_result(int *res, int size)
+void *_calloc(unsigned int nmemb, unsigned int size)
 {
-	int i;
+	unsigned int i;
+	char *ptr;
 
-	for (i = 0; i < size; i++)
-		res[i] = 0;
+	if (nmemb == 0 || size == 0)
+		return (NULL);
+
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+
+	for (i = 0; i < (nmemb * size); i++)
+		ptr[i] = 0;
+
+	return (ptr);
 }
 
 /**
- * perform_mult - Perform the arithmetic calculations
- * @num1: The first number
- * @num2: The second number
- * @res: The result of multiplication
- * @len1: The length of the 1st number
- * @len2: The length of the 2nd number
+ * print - Print the result of the multiplication
+ * @res: The result to print
+ * @len: The length of the result
  * Return: Nothing
  */
 
-void perform_mult(char *num1, char *num2, int *res, int len1, int len2)
+void print(int *res, int len)
 {
-	int i, j, dig1, dig2, pos1, pos2, sum, prod;
+	int i, start = 0;
+
+	for (i = 0; i < len - 1; i++)
+	{
+		if (res[i] != 0)
+			break;
+
+		start++;
+
+	}
+
+	for (i = start; i < len; i++)
+		_putchar(res[i] + '0');
+
+	_putchar('\n');
+}
+
+/**
+ * print_err - Print the error message and exit program
+ * Return: Nothing
+ */
+
+void print_err(void)
+{
+	char *err = "Error\n";
+	int i;
+
+	for (i = 0; err[i]; i++)
+		_putchar(err[i]);
+	exit(98);
+}
+
+/**
+ * mult - Multiplicate the numbers
+ * @num1: The 1st number
+ * @num2: The second number
+ * Return: Nothing
+ */
+
+void mult(char *num1, char *num2)
+{
+	int len1, len2, i, j, n1, n2, sum, *res;
+
+	len1 = _strlen(num1);
+	len2 = _strlen(num2);
+
+	res = _calloc(len1 + len2, sizeof(int));
+	if (res == NULL)
+		return;
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
 		for (j = len2 - 1; j >= 0; j--)
 		{
-			dig1 = num1[i] - '0';
-			dig2 = num2[j] - '0';
-			prod = dig1 * dig2;
-			pos1 = i + j;
-			pos2 = i + j + 1;
-			sum = prod + res[pos2];
-			res[pos2] = sum % 10;
-			res[pos1] += sum / 10;
+			n1 = num1[i] - '0';
+			n2 = num2[j] - '0';
+			sum = res[i + j] + (n1 * n2);
+			res[i + j] += sum / 10;
+			res[i + j + 1] = sum % 10;
 		}
 	}
-}
 
-/**
- * handle_carries - Handle the carries after the multiplication
- * @res: The result from which we need a carry
- * @size: The size of the number
- * Return: Nothing
- */
-
-void handle_carries(int *res, int size)
-{
-	int i;
-
-	for (i = size - 1; i >= 0; i--)
-	{
-		if (res[i] >= 10)
-		{
-			if (i > 0)
-			{
-				res[i - 1] += res[i] / 10;
-			}
-			res[i] %= 10;
-		}
-	}
-}
-
-/**
- * print_prod - Helper function that print the result
- * of the multiplication
- * @res: The result to be printed
- * @size: The size of the result
- * Return: Nothing
- */
-
-void print_prod(int *res, int size)
-{
-	int start = 0, i;
-
-	while (start < size && res[start] == 0)
-		start++;
-
-	if (start == size)
-		_putchar('0');
-		_putchar('\n');
-
-	else
-	{
-		for (i = start; i < size; i++)
-			_putchar(res[i] + '0');
-
-		_putchar('\n');
-	}
-}
-
-/**
- * multiply - Helper function to multiply two large numbers
- * @num1: The first number
- * @num2: The second number
- * Return: The result of num1 * num2
- */
-
-/* Implementing a function to multiply two large numbers */
-void multiply(char *num1, char *num2)
-{
-	int len1 = _strlen(num1);
-	int len2 = _strlen(num2);
-	int tot_len = len1 + len2;
-	int *res = malloc(tot_len * sizeof(int));
-
-	if (!res)
-		exit(98);
-
-	init_result(res, tot_len);
-	perform_mult(num1, num2, res, len1, len2);
-	handle_carries(res, tot_len);
-	print_prod(res, tot_len);
+	print(res, len1 + len2);
 	free(res);
 }
+
 /**
  * main - Entry point
- * @argc: Number of arguments
- * @argv: The values of said arguments
- * Return: Always 0 for success
+ * @argc: The number of arguments
+ * @argv: The value of arguments
+ * Return: 0 for success
  */
 
 int main(int argc, char *argv[])
 {
+	char *num1, *num2;
+	int i;
+
 	if (argc != 3)
+		print_err();
+
+	num1 = argv[1];
+	num2 = argv[2];
+
+	for (i = 0; num1[i]; i++)
+		if (!is_dig(num1[i]))
+			print_err();
+
+	for (i = 0; num2[i]; i++)
+		if (!is_dig(num2[i]))
+			print_err();
+
+	if (num1[0] == '0' || num2[0] == '0')
 	{
-		_putchar('E');
-		_putchar('r');
-		_putchar('r');
-		_putchar('o');
-		_putchar('r');
+		_putchar('0');
 		_putchar('\n');
-		exit(98);
+		return (0);
 	}
 
-	if (!is_digit_str(argv[1]) || !is_digit_str(argv[2]))
-	{
-		_putchar('E');
-		_putchar('r');
-		_putchar('r');
-		_putchar('o');
-		_putchar('r');
-		_putchar('\n');
-		exit(98);
-	}
-
-	multiply(argv[1], argv[2]);
-
+	mult(num1, num2);
 	return (0);
 }
