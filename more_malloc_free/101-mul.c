@@ -1,7 +1,5 @@
 #include "main.h"
 #include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
 
 /**
  * is_digit_str - Check if a string is a number
@@ -94,11 +92,14 @@ void handle_carries(int *res, int size)
 {
 	int i;
 
-	for (i = size - 1; i > 0; i--)
+	for (i = size - 1; i >= 0; i--)
 	{
 		if (res[i] >= 10)
 		{
-			res[i - 1] += res[i] / 10;
+			if (i > 0)
+			{
+				res[i - 1] += res[i] / 10;
+			}
 			res[i] %= 10;
 		}
 	}
@@ -121,6 +122,7 @@ void print_prod(int *res, int size)
 
 	if (start == size)
 		_putchar('0');
+		_putchar('\n');
 
 	else
 	{
