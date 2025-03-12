@@ -44,6 +44,7 @@ char **strtow(char *str)
 {
 	char **word;
 	int nb_words, i, j, word_len, m, k = 0;
+
 	if (str[0] == '\0' || str == NULL)
 	{
 		return (0);
@@ -93,6 +94,12 @@ char **strtow(char *str)
 	}
 
 	word[k] = NULL;
+
+	for (m = 0; m < k; m++)
+	{
+		free(word[m]);
+	}
+	free(word);
 
 	return (word);
 }
