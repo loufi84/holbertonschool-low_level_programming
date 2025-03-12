@@ -130,7 +130,7 @@ void mult(char *num1, char *num2)
 
 	res = _calloc(len1 + len2, sizeof(int));
 	if (res == NULL)
-		return;
+		print_err();
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
