@@ -43,7 +43,7 @@ int count_words(char *str)
 char **strtow(char *str)
 {
 	char **word;
-	int nb_words, i, j, word_len, m, k = 0;
+	int nb_words, i, j, word_len, k = 0;
 
 	if (str[0] == '\0' || str == NULL)
 	{
