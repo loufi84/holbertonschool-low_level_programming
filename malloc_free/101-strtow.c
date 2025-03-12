@@ -31,6 +31,12 @@ int count_words(char *str)
 			in = 0;
 		}
 	}
+
+	if (str[i] == '\0')
+	{
+		return (0);
+	}
+	
 	return (nb);
 }
 
