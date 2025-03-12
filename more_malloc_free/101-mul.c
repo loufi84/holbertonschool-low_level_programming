@@ -13,6 +13,27 @@ int is_dig(int n)
 }
 
 /**
+ * is_all_zeroes - Check for multiple zeroes
+ * @num: The number to check
+ * Return: 1 for success, 0 is all zeroes
+ */
+
+int is_all_zeroes(char *num)
+{
+	int i = 0;
+
+	while (num[i])
+	{
+		if (num[i] != '0')
+			return (0);
+
+		i++;
+	}
+
+	return (1);
+}
+
+/**
  * _strlen - Calculate the length of a string
  * @str: The string to calculate
  * Return: The length of the string
@@ -64,18 +85,17 @@ void print(int *res, int len)
 {
 	int i, start = 0;
 
-	for (i = 0; i < len - 1; i++)
-	{
-		if (res[i] != 0)
-			break;
-
+	while (start < len && res[start] == 0)
 		start++;
 
+	if (start == len)
+		_putchar('0');
+
+	else
+	{
+		for (i = start; i < len; i++)
+			_putchar(res[i] + '0');
 	}
-
-	for (i = start; i < len; i++)
-		_putchar(res[i] + '0');
-
 	_putchar('\n');
 }
 
@@ -118,7 +138,7 @@ void mult(char *num1, char *num2)
 		{
 			n1 = num1[i] - '0';
 			n2 = num2[j] - '0';
-			sum = res[i + j] + (n1 * n2);
+			sum = res[i + j + 1] + (n1 * n2);
 			res[i + j] += sum / 10;
 			res[i + j + 1] = sum % 10;
 		}
@@ -154,7 +174,7 @@ int main(int argc, char *argv[])
 		if (!is_dig(num2[i]))
 			print_err();
 
-	if (num1[0] == '0' || num2[0] == '0')
+	if (is_all_zeroes(num1) || is_all_zeroes(num2))
 	{
 		_putchar('0');
 		_putchar('\n');
