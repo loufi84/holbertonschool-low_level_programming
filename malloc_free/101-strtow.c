@@ -35,6 +35,25 @@ int count_words(char *str)
 }
 
 /**
+ * word_len - Calculate the length of a word
+ * @str: The string to extract words from
+ * Return: int length for word
+ */
+
+int word_count(char *str)
+{
+	int len = 0;
+
+	while (str[len] && str[len] != ' ')
+	{
+		len++:
+	}
+
+	return (len);
+	
+}
+
+/**
  * strtow - Split string in words
  * @str: The string to split
  * Return: A pointer to str
@@ -43,65 +62,53 @@ int count_words(char *str)
 char **strtow(char *str)
 {
 	char **word;
-	int nb_words, i, j, word_len, k = 0;
+	int i = 0, j, k, word_len, word_nb;
 
-	if (str == NULL || str[0] == '\0')
+	if (str == NULL || str[0] = '\0')
 	{
 		return (NULL);
 	}
 
-	nb_words = count_words(str);
-	if (nb_words == 0)
+	word_nb = word_count(str);
+	if (word_nb == 0)
 	{
 		return (NULL);
 	}
 
-	word = malloc(sizeof(char *) * (nb_words + 1));
+	word = malloc(sizeof(char *) * (word_nb + 1));
 	if (word == NULL)
 	{
 		return (NULL);
 	}
 
-	for (i = 0; str[i] != '\0' && k < nb_words;)
+	for (j = 0; j < word_nb; j++)
 	{
-		if (str[i] == ' ')
+		while (str[i] == ' ')
 		{
-			i++;
-			continue;
+			i++
 		}
 
-		word_len = 0;
-		while (str[i + word_len] != ' ' && str[i + word_len] != '\0')
-		{
-			word_len++;
-		}
+		word_len = word_count(str + i);
 
-		word[k] = malloc(word_len + 1);
-		if (word[k] == NULL)
+		word[j] = malloc(sizeof(char *) * (word_len + 1));
+		if (word[j] == NULL)
 		{
-			for (j = 0; j < k; j++)
+			for (k = 0; k < j; k++)
 			{
-				free(word[j]);
+				free(word[k]);
 			}
 			free(word);
 			return (NULL);
 		}
 
-		for (j = 0; j < word_len; j++)
+		for (k = 0; k < word_len; k++)
 		{
-			word[k][j] = str[i + j];
+			word[j][k] = str[i + k];
 		}
-		word[k][word_len] = '\0';
-
-		i += word_len;
-		while (str[i] == ' ' && str[i] != '\0')
-		{
-			i++;
-		}
-		k++;
+		word[j][k] = '\0';
 	}
 
-	word[k] = NULL;
+	word(j) = NULL;
 
 	return (word);
 }
