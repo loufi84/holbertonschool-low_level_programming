@@ -23,19 +23,12 @@ char *argstostr(int ac, char *av[])
 
 	for (index = 0; index < ac; index++)
 	{
-		if (av[index] == NULL)
-		{
-			continue;
-		}
-		len = 0;
-		while (av[index][len] != '\0')
-		{
-			len++;
-			tot_len += len + 1;
-		}
+		for (; av[index][len] != '\0'; len++)
+		{}
+		tot_len += len + 1;
 	}
 
-	str = (char *)malloc(sizeof(char) * (tot_len + 1));
+	str = (char *)malloc(tot_len + 1);
 	if (str == NULL)
 	{
 		return (NULL);
@@ -44,10 +37,6 @@ char *argstostr(int ac, char *av[])
 	copj = 0;
 	for (copi = 0; copi < ac; copi++)
 	{
-		if (av[copi] == NULL)
-		{
-			continue;
-		}
 		for (len = 0; av[copi][len] != '\0'; len++)
 		{
 			str[copj++] = av[copi][len];
