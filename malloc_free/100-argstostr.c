@@ -23,9 +23,12 @@ char *argstostr(int ac, char *av[])
 
 	for (index = 0; index < ac; index++)
 	{
-		for (; av[index][len] != '\0'; len++)
-		{}
-		tot_len += len + 1;
+		len = 0;
+		while (av[index][len] != '\0')
+		{
+			len ++;
+			tot_len += len + 1;
+		}
 	}
 
 	str = (char *)malloc(tot_len + 1);
