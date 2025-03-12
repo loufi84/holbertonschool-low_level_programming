@@ -43,7 +43,11 @@ int count_words(char *str)
 char **strtow(char *str)
 {
 	char **word;
-	int nb_words, i, j, word_len, k = 0;
+	int nb_words, i, j, word_len, m, k = 0;
+	if (str[0] == '\0' || str == NULL)
+	{
+		return (0);
+	}
 
 	nb_words = count_words(str);
 
@@ -71,6 +75,11 @@ char **strtow(char *str)
 		word[k] = malloc(word_len + 1);
 		if (word[k] == NULL)
 		{
+			for (m = 0; m < k; m++)
+			{
+				free(word[m]);
+			}
+			free(word);
 			return (NULL);
 		}
 		for (j = 0; j < word_len; j++)
