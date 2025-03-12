@@ -38,20 +38,13 @@ void multiply(char *num1, char *num2)
 {
 	int len1 = strlen(num1);
 	int len2 = strlen(num2);
-	int i, j, dig1, dig2, prod, pos1, pos2, sum;
-	int start;
-
+	int i, j, dig1, dig2, prod, pos1, pos2, sum, start;
 	int *res = (int *)malloc((len1 + len2) * sizeof(int));
+
 	if (res == NULL)
-	{
 		exit(98);
-	}
-
 	for (i = 0; i < len1 + len2; i++)
-	{
 		res[i] = 0;
-	}
-
 	for (i = len1 - 1; i >= 0; i--)
 	{
 		for (j = len2 - 1; j >= 0; j--)
@@ -62,22 +55,16 @@ void multiply(char *num1, char *num2)
 			pos1 = i + j;
 			pos2 = i + j + 1;
 			sum = prod + res[pos2];
-
 			res[pos2] = sum % 10; /* Store dig in current position */
 			res[pos1] += sum / 10; /* Carry the next higher position */
 		}
 	}
-
 	start = 0;
 	while (start < len1 + len2 && res[start] == 0)
-	{
 		start++;
-	}
 
 	if (start == len1 + len2)
-	{
 		printf("0\n");
-	}
 	else
 	{
 		for (i = start; i < len1 + len2; i++)
@@ -86,7 +73,6 @@ void multiply(char *num1, char *num2)
 		}
 		printf("\n");
 	}
-
 	free(res);
 }
 /**
