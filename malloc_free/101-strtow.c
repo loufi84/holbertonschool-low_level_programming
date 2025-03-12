@@ -69,7 +69,7 @@ char **strtow(char *str)
 		return (NULL);
 	}
 
-	word_nb = word_count(str);
+	word_nb = count_words(str);
 	if (word_nb == 0)
 	{
 		return (NULL);
