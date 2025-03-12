@@ -114,10 +114,10 @@ void free_words(char **words)
 
 	if (words == NULL)
 	{
-		return (NULL);
+		return;
 	}
 
-	for (i = 0; words[i] != '\0'; i++)
+	for (i = 0; words[i] != NULL; i++)
 	{
 		free(words[i]);
 	}
