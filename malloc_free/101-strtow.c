@@ -46,7 +46,7 @@ int word_count(char *str)
 
 	while (str[len] && str[len] != ' ')
 	{
-		len++:
+		len++;
 	}
 
 	return (len);
@@ -64,7 +64,7 @@ char **strtow(char *str)
 	char **word;
 	int i = 0, j, k, word_len, word_nb;
 
-	if (str == NULL || str[0] = '\0')
+	if (str == NULL || str[0] == '\0')
 	{
 		return (NULL);
 	}
@@ -85,7 +85,7 @@ char **strtow(char *str)
 	{
 		while (str[i] == ' ')
 		{
-			i++
+			i++;
 		}
 
 		word_len = word_count(str + i);
@@ -108,7 +108,7 @@ char **strtow(char *str)
 		word[j][k] = '\0';
 	}
 
-	word(j) = NULL;
+	word[j] = NULL;
 
 	return (word);
 }
