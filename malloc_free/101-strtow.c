@@ -95,11 +95,5 @@ char **strtow(char *str)
 
 	word[k] = NULL;
 
-	for (m = 0; m < k; m++)
-	{
-		free(word[m]);
-	}
-	free(word);
-
 	return (word);
 }
