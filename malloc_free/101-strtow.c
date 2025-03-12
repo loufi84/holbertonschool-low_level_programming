@@ -90,7 +90,7 @@ char **strtow(char *str)
 
 		word_len = word_count(str + i);
 
-		word[j] = malloc(sizeof(char *) * (word_len + 1));
+		word[j] = malloc(sizeof(char) * (word_len + 1));
 		if (word[j] == NULL)
 		{
 			for (k = 0; k < j; k++)
