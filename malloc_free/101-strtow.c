@@ -51,6 +51,10 @@ char **strtow(char *str)
 	}
 
 	nb_words = count_words(str);
+	if (nb_words == 0)
+	{
+		return (NULL);
+	}
 
 	word = malloc(sizeof(char *) * (nb_words + 1));
 	if (word == NULL)
@@ -96,4 +100,26 @@ char **strtow(char *str)
 	word[k] = NULL;
 
 	return (word);
+}
+
+/**
+ * free_words - free the memory
+ * @words: The array to free
+ * Return: nothing
+ */
+
+void free_words(char **words)
+{
+	int i;
+
+	if (words == NULL)
+	{
+		return (NULL);
+	}
+
+	for (i = 0; words[i] != '\0'; i++)
+	{
+		free(words[i]);
+	}
+	free(words);
 }
