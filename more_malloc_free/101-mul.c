@@ -27,6 +27,99 @@ int is_digit_str(char *str)
 }
 
 /**
+ * init_result - Initialize the result (helper function)
+ * @res: The result of multiplication
+ * @size: The size of the number
+ * Return: Nothing
+ */
+
+void init_result(int *res, int size)
+{
+	int i;
+
+	for (i = 0; i < size; i++)
+		res[i] = 0;
+}
+
+/**
+ * perform_mult - Perform the arithmetic calculations
+ * @num1: The first number
+ * @num2: The second number
+ * @res: The result of multiplication
+ * @len1: The length of the 1st number
+ * @len2: The length of the 2nd number
+ * Return: Nothing
+ */
+
+void perform_mult(char *num1, char *num2, int *res, int len1, int len2)
+{
+	int i, j, dig1, dig2, pos1, pos2, sum, prod;
+
+	for (i = len1 - 1; i >= 0; i--)
+	{
+		for (j = len2 - 1; j >= 0; j--)
+		{
+			dig1 = num1[i] - '0';
+			dig2 = num2[j] - '0';
+			prod = dig1 * dig2;
+			pos1 = i + j;
+			pos2 = i + j + 1;
+			sum = prod + res[pos2];
+			res[pos2] = sum % 10;
+			res[pos1] += sum / 10;
+		}
+	}
+}
+
+/**
+ * handle_carries - Handle the carries after the multiplication
+ * @res: The result from which we need a carry
+ * @size: The size of the number
+ * Return: Nothing
+ */
+
+void handle_carries(int *res, int size)
+{
+	int i;
+
+	for (i = size - 1; i > 0; i--)
+	{
+		if (res[i] >= 10)
+		{
+			res[i - 1] += res[i] / 10;
+			res[i] %= 10;
+		}
+	}
+}
+
+/**
+ * print_prod - Helper function that print the result
+ * of the multiplication
+ * @res: The result to be printed
+ * @size: The size of the result
+ * Return: Nothing
+ */
+
+void print_prod(int *res, int size)
+{
+	int start = 0, i;
+
+	while (start < size && res[start] == 0)
+		start++;
+
+	if (start == size)
+		printf("0\n");
+
+	else
+	{
+		for (i = start; i < size; i++)
+			printf("%d", res[i]);
+
+		printf("\n");
+	}
+}
+
+/**
  * multiply - Helper function to multiply two large numbers
  * @num1: The first number
  * @num2: The second number
@@ -38,41 +131,16 @@ void multiply(char *num1, char *num2)
 {
 	int len1 = strlen(num1);
 	int len2 = strlen(num2);
-	int i, j, dig1, dig2, prod, pos1, pos2, sum, start;
-	int *res = (int *)malloc((len1 + len2) * sizeof(int));
+	int tot_len = len1 + len2;
+	int *res = malloc(tot_len * sizeof(int));
 
-	if (res == NULL)
+	if (!res)
 		exit(98);
-	for (i = 0; i < len1 + len2; i++)
-		res[i] = 0;
-	for (i = len1 - 1; i >= 0; i--)
-	{
-		for (j = len2 - 1; j >= 0; j--)
-		{
-			dig1 = num1[i] - '0';
-			dig2 = num2[j] - '0';
-			prod = dig1 * dig2;
-			pos1 = i + j;
-			pos2 = i + j + 1;
-			sum = prod + res[pos2];
-			res[pos2] = sum % 10; /* Store dig in current position */
-			res[pos1] += sum / 10; /* Carry the next higher position */
-		}
-	}
-	start = 0;
-	while (start < len1 + len2 && res[start] == 0)
-		start++;
 
-	if (start == len1 + len2)
-		printf("0\n");
-	else
-	{
-		for (i = start; i < len1 + len2; i++)
-		{
-			printf("%d", res[i]);
-		}
-		printf("\n");
-	}
+	init_result(res, tot_len);
+	perform_mult(num1, num2, res, len1, len2);
+	handle_carries(res, tot_len);
+	print_prod(res, tot_len);
 	free(res);
 }
 /**
