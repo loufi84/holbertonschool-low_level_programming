@@ -14,9 +14,9 @@ int count_words(char *str)
 	int nb = 0;
 	int in = 0;
 
-	if (str[0] == '\0' || str == NULL)
+	if (str == NULL || str[0] == '\0')
 	{
-		return (0);
+		return (NULL);
 	}
 
 	for (i = 0; str[i] != '\0'; i++)
@@ -43,11 +43,11 @@ int count_words(char *str)
 char **strtow(char *str)
 {
 	char **word;
-	int nb_words, i, j, word_len, m, k = 0;
+	int nb_words, i, j, word_len, k = 0;
 
-	if (str[0] == '\0' || str == NULL)
+	if (str == NULL || str[0] == '\0')
 	{
-		return (0);
+		return (NULL);
 	}
 
 	nb_words = count_words(str);
@@ -70,7 +70,7 @@ char **strtow(char *str)
 		}
 
 		word_len = 0;
-		while (str[i + word_len] != ' ' && str[i = word_len] != '\0')
+		while (str[i + word_len] != ' ' && str[i + word_len] != '\0')
 		{
 			word_len++;
 		}
@@ -93,6 +93,10 @@ char **strtow(char *str)
 		word[k][word_len] = '\0';
 
 		i += word_len;
+		while (str[i] == ' ')
+		{
+			i++;
+		}
 		k++;
 	}
 
