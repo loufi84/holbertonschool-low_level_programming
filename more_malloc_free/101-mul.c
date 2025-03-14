@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * is_dig - Checks if a char is a digit
@@ -81,23 +82,18 @@ void *_calloc(unsigned int nmemb, unsigned int size)
  * Return: Nothing
  */
 
-void print(int *res, int len)
+void print_res(int *res, int len)
 {
-	int i, start = 0;
+	int i = 0;
 
-	for (i = 0; i < len - 1; i++)
-	{
-		if (res[i] != 0)
-			break;
-		start++;
-	}
+	while (i < len && res[i] == 0)
+		i++;
 
-	if (start == len)
+	if (i == len)
 		_putchar('0');
-
 	else
 	{
-		for (i = start; i < len; i++)
+		for (; i < len; i++)
 			_putchar(res[i] + '0');
 	}
 	_putchar('\n');
@@ -128,29 +124,32 @@ int print_err(void)
 
 void mult(char *num1, char *num2)
 {
-	int len1, len2, i, j, *res;
-	unsigned long n1, n2, sum;
+	int len1, len2, *res;
+	int i, j, n1, n2, sum;
 
 	len1 = _strlen(num1);
 	len2 = _strlen(num2);
-
 	res = _calloc(len1 + len2, sizeof(int));
 	if (res == NULL)
-		print_err();
+	{
+		printf("Error\n");
+		exit(98);
+	}
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
-		for (j = len2 - 1; j >= 0; j--)
+		for (j = len2 - 1; j>= 0; j--)
 		{
 			n1 = num1[i] - '0';
 			n2 = num2[j] - '0';
-			sum = res[i + j + 1] + (n1 * n2);
-			res[i + j] += sum / 10;
+			sum = n1 * n2 + res[i + j + 1];
 			res[i + j + 1] = sum % 10;
+			res[i + j] += sum / 10;
 		}
 	}
 
-	print(res, len1 + len2);
+	print_res(res, len1 + len2);
+
 	free(res);
 }
 
