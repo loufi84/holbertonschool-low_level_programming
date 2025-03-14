@@ -129,9 +129,6 @@ void mult(char *num1, char *num2)
 	len1 = _strlen(num1);
 	len2 = _strlen(num2);
 
-	if (len1 > 1000 || len2 > 1000)
-		print_err();
-
 	res = _calloc(len1 + len2, sizeof(int));
 	if (res == NULL)
 		print_err();
@@ -170,11 +167,6 @@ int main(int argc, char *argv[])
 	num1 = argv[1];
 	num2 = argv[2];
 
-	while (*num1 == '0' && *(num1 + 1) != '\0')
-		num1++;
-	while (*num2 == '0' && *(num2 + 1) != '\0')
-		num2++;
-
 	if (num1[0] == '\0' || num2[0] == '\0')
 	{
 		print_err();
@@ -185,6 +177,7 @@ int main(int argc, char *argv[])
 		_putchar('\n');
 		return (0);
 	}
+
 	for (i = 0; num1[i]; i++)
 		if (!is_dig(num1[i]))
 			print_err();
@@ -192,12 +185,14 @@ int main(int argc, char *argv[])
 	for (i = 0; num2[i]; i++)
 		if (!is_dig(num2[i]))
 			print_err();
+
 	if (is_all_zeroes(num1) || is_all_zeroes(num2))
 	{
 		_putchar('0');
 		_putchar('\n');
 		return (0);
 	}
+
 	mult(num1, num2);
 	return (0);
 }
