@@ -190,7 +190,5 @@ int main(int argc, char *argv[])
 	}
 
 	mult(num1, num2);
-	free(num1);
-	free(num2);
 	return (0);
 }
