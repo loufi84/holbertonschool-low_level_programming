@@ -192,7 +192,6 @@ int main(int argc, char *argv[])
 		_putchar('\n');
 		return (0);
 	}
-
 	mult(num1, num2);
 	return (0);
 }
