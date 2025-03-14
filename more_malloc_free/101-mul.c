@@ -4,26 +4,32 @@
 /**
  * is_dig - Checks if a char is a digit
  * @n: The char to check
- * Return: 1 if it's a digit, 0 otherwise
+ * Return: The digit
  */
+
 int is_dig(char n)
 {
 	return (n >= '0' && n <= '9');
 }
 
 /**
- * is_all_zeroes - Check if a string consists of only zeroes
- * @num: The string to check
- * Return: 1 if all zeroes, 0 otherwise
+ * is_all_zeroes - Check for multiple zeroes
+ * @num: The number to check
+ * Return: 1 for success, 0 is all zeroes
  */
+
 int is_all_zeroes(char *num)
 {
-	while (*num)
+	int i = 0;
+
+	while (num[i])
 	{
-		if (*num != '0')
+		if (num[i] != '0')
 			return (0);
-		num++;
+
+		i++;
 	}
+
 	return (1);
 }
 
@@ -32,21 +38,50 @@ int is_all_zeroes(char *num)
  * @str: The string to calculate
  * Return: The length of the string
  */
+
 int _strlen(char *str)
 {
 	int len = 0;
 
 	while (str[len])
 		len++;
+
 	return (len);
 }
 
 /**
- * print_result - Print the result of the multiplication
- * @res: The result array
- * @len: The length of the result
+ * _calloc - Allocate memory and initialize it at 0
+ * @nmemb: The number of elements
+ * @size: The size of the array
+ * Return: A pointer to the allocated memory
  */
-void print_result(int *res, int len)
+
+void *_calloc(unsigned int nmemb, unsigned int size)
+{
+	unsigned int i;
+	char *ptr;
+
+	if (nmemb == 0 || size == 0)
+		return (NULL);
+
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+
+	for (i = 0; i < (nmemb * size); i++)
+		ptr[i] = 0;
+
+	return (ptr);
+}
+
+/**
+ * print - Print the result of the multiplication
+ * @res: The result to print
+ * @len: The length of the result
+ * Return: Nothing
+ */
+
+void print(int *res, int len)
 {
 	int i = 0;
 
@@ -81,18 +116,22 @@ void print_err(void)
 }
 
 /**
- * multiply - Multiply two large numbers represented as strings
- * @num1: The first number
+ * mult - Multiplicate the numbers
+ * @num1: The 1st number
  * @num2: The second number
+ * Return: Nothing
  */
-void multiply(char *num1, char *num2)
-{
-	int len1 = _strlen(num1);
-	int len2 = _strlen(num2);
-	int *result = calloc(len1 + len2, sizeof(int));
-	int i, j, n1, n2, sum;
 
-	if (result == NULL)
+void mult(char *num1, char *num2)
+{
+	int len1, len2, i, j, *res;
+	int n1, n2, sum;
+
+	len1 = _strlen(num1);
+	len2 = _strlen(num2);
+
+	res = _calloc(len1 + len2, sizeof(int));
+	if (res == NULL)
 		print_err();
 
 	for (i = len1 - 1; i >= 0; i--)
@@ -101,15 +140,13 @@ void multiply(char *num1, char *num2)
 		{
 			n1 = num1[i] - '0';
 			n2 = num2[j] - '0';
-			sum = n1 * n2 + result[i + j + 1];
-			result[i + j + 1] = sum % 10;
-			result[i + j] += sum / 10;
+			sum = res[i + j + 1] + (n1 * n2);
+			res[i + j] += sum / 10;
+			res[i + j + 1] = sum % 10;
 		}
 	}
-
-	print_result(result, len1 + len2);
-
-	free(result);
+	print(res, len1 + len2);
+	free(res);
 }
 
 /**
@@ -118,6 +155,7 @@ void multiply(char *num1, char *num2)
  * @argv: The value of arguments
  * Return: 0 for success
  */
+
 int main(int argc, char *argv[])
 {
 	char *num1, *num2;
@@ -141,9 +179,12 @@ int main(int argc, char *argv[])
 			print_err();
 
 	if (is_all_zeroes(num1) || is_all_zeroes(num2))
-		print_err();
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
 
-	multiply(num1, num2);
-
+	mult(num1, num2);
 	return (0);
 }
