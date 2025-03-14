@@ -158,32 +158,30 @@ void mult(char *num1, char *num2)
 
 int main(int argc, char *argv[])
 {
-	char *n1, *n2;
+	char *num1, *num2;
 	int i;
 
 	if (argc != 3)
 		print_err();
 
-	n1 = argv[1];
-	n2 = argv[2];
+	num1 = argv[1];
+	num2 = argv[2];
 
-	if (n1[0] == '\0' || n2[0] == '\0')
-		print_err();
-
-	if (is_all_zeroes(n1) || is_all_zeroes(n2))
-		print_err();
-
-	for (i = 0; n1[i]; i++)
-		if (!is_dig(n1[i]))
+	for (i = 0; num1[i]; i++)
+		if (!is_dig(num1[i]))
 			print_err();
 
-	for (i = 0; n2[i]; i++)
-		if (!is_dig(n2[i]))
+	for (i = 0; num2[i]; i++)
+		if (!is_dig(num2[i]))
 			print_err();
 
-	if (is_all_zeroes(n1) || is_all_zeroes(n2))
-		print_err();
+	if (is_all_zeroes(num1) || is_all_zeroes(num2))
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
 
-	mult(n1, n2);
+	mult(num1, num2);
 	return (0);
 }
