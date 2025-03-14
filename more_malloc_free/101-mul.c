@@ -168,15 +168,9 @@ int main(int argc, char *argv[])
 	n2 = argv[2];
 
 	if (n1[0] == '\0' || n2[0] == '\0')
-	{
 		print_err();
-	}
 	if (is_all_zeroes(n1) || is_all_zeroes(n2))
-	{
-		_putchar('0');
-		_putchar('\n');
-		return (0);
-	}
+		print_err();
 
 	for (i = 0; n1[i]; i++)
 		if (!is_dig(n1[i]))
@@ -193,6 +187,9 @@ int main(int argc, char *argv[])
 		return (0);
 	}
 	if ((n1[0] == '0' && n1[1] != '\0') || (n2[0] == '0' && n2[1] != '\0'))
+		print_err();
+
+	if ((_strlen(n1) == 1 && n1[0] == '0') || (_strlen(n2) == 1 && n2[0] == 'O'))
 		print_err();
 	mult(n1, n2);
 	return (0);
