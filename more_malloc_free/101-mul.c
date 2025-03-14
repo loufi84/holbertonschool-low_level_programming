@@ -2,121 +2,119 @@
 #include <stdlib.h>
 
 /**
- * is_dig - Checks if a char is a digit
- * @n: The char to check
+ * is_digit - Checks if a character is a digit
+ * @c: The character to check
  * Return: 1 if it's a digit, 0 otherwise
  */
-int is_dig(char n)
+int is_digit(char c)
 {
-	return (n >= '0' && n <= '9');
+	return (c >= '0' && c <= '9');
 }
 
 /**
- * is_all_zeroes - Check if a string consists of only zeroes
- * @num: The string to check
+ * all_zeroes - Checks if a string consists of only zeroes
+ * @str: The string to check
  * Return: 1 if all zeroes, 0 otherwise
  */
-int is_all_zeroes(char *num)
+int all_zeroes(char *str)
 {
-	while (*num)
+	while (*str)
 	{
-		if (*num != '0')
+		if (*str != '0')
 			return (0);
-		num++;
+		str++;
 	}
 	return (1);
 }
 
 /**
- * _strlen - Calculate the length of a string
- * @str: The string to calculate
+ * str_length - Calculates the length of a string
+ * @str: The string to measure
  * Return: The length of the string
  */
-int _strlen(char *str)
+int str_length(char *str)
 {
-	int len = 0;
+	int length = 0;
 
-	while (str[len])
-		len++;
-	return (len);
+	while (str[length])
+		length++;
+	return (length);
 }
 
 /**
- * print_result - Print the result of the multiplication
- * @res: The result array
- * @len: The length of the result
+ * print_error - Prints an error message and exits the program
  */
-void print_result(int *res, int len)
+void print_error(void)
+{
+	char *error_msg = "Error\n";
+
+	while (*error_msg)
+		_putchar(*error_msg++);
+	exit(98);
+}
+
+/**
+ * print_result - Prints the result of the multiplication
+ * @result: The result array
+ * @size: The size of the result array
+ */
+void print_result(int *result, int size)
 {
 	int i = 0;
 
-	while (i < len && res[i] == 0)
+	// Skip leading zeroes
+	while (i < size && result[i] == 0)
 		i++;
 
-	if (i == len)
+	if (i == size)
 	{
 		_putchar('0');
 	}
 	else
 	{
-		for (; i < len; i++)
-			_putchar(res[i] + '0');
+		for (; i < size; i++)
+			_putchar(result[i] + '0');
 	}
 	_putchar('\n');
 }
 
 /**
- * print_err - Print the error message and exit program
- * Return: Nothing
+ * multiply_strings - Multiplies two large numbers represented as strings
+ * @num1: The first number as a string
+ * @num2: The second number as a string
  */
-
-void print_err(void)
+void multiply_strings(char *num1, char *num2)
 {
-	char *err = "Error\n";
-	int i;
-
-	for (i = 0; err[i]; i++)
-		_putchar(err[i]);
-	exit(98);
-}
-
-/**
- * multiply - Multiply two large numbers represented as strings
- * @num1: The first number
- * @num2: The second number
- */
-void multiply(char *num1, char *num2)
-{
-	int len1 = _strlen(num1);
-	int len2 = _strlen(num2);
+	int len1 = str_length(num1);
+	int len2 = str_length(num2);
 	int *result = calloc(len1 + len2, sizeof(int));
-	int i, j, n1, n2, sum;
+	int i, j;
 
-	if (result == NULL)
-		print_err();
+	if (!result)
+		print_error();
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
 		for (j = len2 - 1; j >= 0; j--)
 		{
-			n1 = num1[i] - '0';
-			n2 = num2[j] - '0';
-			sum = n1 * n2 + result[i + j + 1];
+			int digit1 = num1[i] - '0';
+			int digit2 = num2[j] - '0';
+			int sum = digit1 * digit2 + result[i + j + 1];
+
 			result[i + j + 1] = sum % 10;
 			result[i + j] += sum / 10;
 		}
 	}
 
 	print_result(result, len1 + len2);
-
 	free(result);
 }
 
 /**
- * main - Entry point
- * @argc: The number of arguments
- * @argv: The value of arguments
- * Return: 0 for success
+ * main - Entry point of the program
+ * @argc: Number of command-line arguments
+ * @argv: Array of command-line argument strings
+ * Return: 0 on success, exits with error code otherwise
  */
 int main(int argc, char *argv[])
 {
@@ -124,26 +122,27 @@ int main(int argc, char *argv[])
 	int i;
 
 	if (argc != 3)
-		print_err();
+		print_error();
 
 	num1 = argv[1];
 	num2 = argv[2];
 
-	if (num1[0] == '\0' || num2[0] == '\0')
-		print_err();
+	if (all_zeroes(num1) || all_zeroes(num2))
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
 
 	for (i = 0; num1[i]; i++)
-		if (!is_dig(num1[i]))
-			print_err();
+		if (!is_digit(num1[i]))
+			print_error();
 
 	for (i = 0; num2[i]; i++)
-		if (!is_dig(num2[i]))
-			print_err();
+		if (!is_digit(num2[i]))
+			print_error();
 
-	if (is_all_zeroes(num1) || is_all_zeroes(num2))
-		print_err();
-
-	multiply(num1, num2);
+	multiply_strings(num1, num2);
 
 	return (0);
 }
