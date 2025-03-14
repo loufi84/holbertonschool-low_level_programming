@@ -85,8 +85,12 @@ void print(int *res, int len)
 {
 	int i, start = 0;
 
-	while (start < len && res[start] == 0)
+	for (i = 0; i < len - 1; i++)
+	{
+		if (res[i] != 0)
+			break;
 		start++;
+	}
 
 	if (start == len)
 		_putchar('0');
