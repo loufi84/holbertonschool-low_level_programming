@@ -148,7 +148,6 @@ void mult(char *num1, char *num2)
 			res[i + j + 1] = sum % 10;
 		}
 	}
-
 	print(res, len1 + len2);
 	free(res);
 }
