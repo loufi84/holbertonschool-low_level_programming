@@ -123,7 +123,8 @@ void print_err(void)
 
 void mult(char *num1, char *num2)
 {
-	int len1, len2, i, j, n1, n2, sum, *res;
+	int len1, len2, i, j, *res;
+	long n1, n2, sum;
 
 	len1 = _strlen(num1);
 	len2 = _strlen(num2);
@@ -165,6 +166,11 @@ int main(int argc, char *argv[])
 
 	num1 = argv[1];
 	num2 = argv[2];
+
+	if (num1[0] == '\0' || num2[0] == '\0')
+	{
+		print_err();
+	}
 
 	for (i = 0; num1[i]; i++)
 		if (!is_dig(num1[i]))
