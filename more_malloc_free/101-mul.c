@@ -124,7 +124,7 @@ void print_err(void)
 void mult(char *num1, char *num2)
 {
 	int len1, len2, i, j, *res;
-	unsigned long n1, n2, sum;
+	long n1, n2, sum;
 
 	len1 = _strlen(num1);
 	len2 = _strlen(num2);
@@ -158,26 +158,43 @@ void mult(char *num1, char *num2)
 
 int main(int argc, char *argv[])
 {
-	char *n1, *n2;
+	char *num1, *num2;
 	int i;
 
 	if (argc != 3)
 		print_err();
 
-	n1 = argv[1];
-	n2 = argv[2];
+	num1 = argv[1];
+	num2 = argv[2];
 
+<<<<<<< HEAD
 	if (n1[0] == '\0' || n2[0] == '\0')
 		print_err();
 	
 	for (i = 0; n1[i]; i++)
 		if (!is_dig(n1[i]))
+=======
+	if (num1[0] == '\0' || num2[0] == '\0')
+	{
+		print_err();
+	}
+	if (is_all_zeroes(num1) || is_all_zeroes(num2))
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
+
+	for (i = 0; num1[i]; i++)
+		if (!is_dig(num1[i]))
+>>>>>>> parent of 5834f38 (Trying to treat leading zeroes as error)
 			print_err();
 
-	for (i = 0; n2[i]; i++)
-		if (!is_dig(n2[i]))
+	for (i = 0; num2[i]; i++)
+		if (!is_dig(num2[i]))
 			print_err();
 
+<<<<<<< HEAD
 	if ((n1[0] == '0' && _strlen(n1) > 1) || (n2[0] == '0' && _strlen(n2) > 1))
 		print_err();
 
@@ -185,5 +202,14 @@ int main(int argc, char *argv[])
 		print_err();
 
 	mult(n1, n2);
+=======
+	if (is_all_zeroes(num1) || is_all_zeroes(num2))
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
+	mult(num1, num2);
+>>>>>>> parent of 5834f38 (Trying to treat leading zeroes as error)
 	return (0);
 }
