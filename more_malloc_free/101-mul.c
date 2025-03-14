@@ -1,6 +1,5 @@
 #include "main.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 /**
  * is_dig - Checks if a char is a digit
@@ -131,14 +130,11 @@ void mult(char *num1, char *num2)
 	len2 = _strlen(num2);
 	res = _calloc(len1 + len2, sizeof(int));
 	if (res == NULL)
-	{
-		printf("Error\n");
-		exit(98);
-	}
+		print_err();
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
-		for (j = len2 - 1; j>= 0; j--)
+		for (j = len2 - 1; j >= 0; j--)
 		{
 			n1 = num1[i] - '0';
 			n2 = num2[j] - '0';
