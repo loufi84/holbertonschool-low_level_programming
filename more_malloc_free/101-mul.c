@@ -171,6 +171,12 @@ int main(int argc, char *argv[])
 	{
 		print_err();
 	}
+	if (is_all_zeroes(num1) || is_all_zeroes(num2))
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
 
 	for (i = 0; num1[i]; i++)
 		if (!is_dig(num1[i]))
