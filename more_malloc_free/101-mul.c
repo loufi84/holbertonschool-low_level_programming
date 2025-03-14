@@ -103,14 +103,13 @@ void print_res(int *res, int len)
  * Return: Nothing
  */
 
-int print_err(void)
+void print_err(void)
 {
 	char *err = "Error\n";
 	int i;
 
 	for (i = 0; err[i]; i++)
 		_putchar(err[i]);
-
 	exit(98);
 }
 
