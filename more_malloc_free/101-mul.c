@@ -81,18 +81,23 @@ void *_calloc(unsigned int nmemb, unsigned int size)
  * Return: Nothing
  */
 
-void print_res(int *res, int len)
+void print(int *res, int len)
 {
-	int i = 0;
+	int i, start = 0;
 
-	while (i < len && res[i] == 0)
-		i++;
+	for (i = 0; i < len - 1; i++)
+	{
+		if (res[i] != 0)
+			break;
+		start++;
+	}
 
-	if (i == len)
+	if (start == len)
 		_putchar('0');
+
 	else
 	{
-		for (; i < len; i++)
+		for (i = start; i < len; i++)
 			_putchar(res[i] + '0');
 	}
 	_putchar('\n');
@@ -122,11 +127,12 @@ void print_err(void)
 
 void mult(char *num1, char *num2)
 {
-	int len1, len2, *res;
-	int i, j, n1, n2, sum;
+	int len1, len2, i, j, *res;
+	unsigned long n1, n2, sum;
 
 	len1 = _strlen(num1);
 	len2 = _strlen(num2);
+
 	res = _calloc(len1 + len2, sizeof(int));
 	if (res == NULL)
 		print_err();
@@ -137,14 +143,13 @@ void mult(char *num1, char *num2)
 		{
 			n1 = num1[i] - '0';
 			n2 = num2[j] - '0';
-			sum = n1 * n2 + res[i + j + 1];
-			res[i + j + 1] = sum % 10;
+			sum = res[i + j + 1] + (n1 * n2);
 			res[i + j] += sum / 10;
+			res[i + j + 1] = sum % 10;
 		}
 	}
 
-	print_res(res, len1 + len2);
-
+	print(res, len1 + len2);
 	free(res);
 }
 
