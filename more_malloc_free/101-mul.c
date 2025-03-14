@@ -167,6 +167,9 @@ int main(int argc, char *argv[])
 	num1 = argv[1];
 	num2 = argv[2];
 
+	if (num1[0] == '\0' || num2[0] == '\0')
+		print_err();
+
 	for (i = 0; num1[i]; i++)
 		if (!is_dig(num1[i]))
 			print_err();
