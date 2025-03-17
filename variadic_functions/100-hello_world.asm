@@ -1,14 +1,15 @@
 section					.text
 global					_start
 _start:
-	mov edx, len
-	mov ecx, msg
-	mov abx, 1
-	mov eax, 4
-	int 0x80
-	mov eax, 1
-	int 0x80
+	mov rax, 1
+	mov rdi, 1
+	mov rsi, msg
+	mov rdx, len
+	syscall
+	mov rax, 60
+	xor rdi, rdi
+	syscall
 
 section					.data
-	msg					db "Hello, World", 0xa
+	msg					db "Hello, World", 10
 	len					equ $ -msg
