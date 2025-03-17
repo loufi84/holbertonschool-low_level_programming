@@ -5,9 +5,9 @@ section					.data
 
 
 section					.text
-global					_start
+global					main
 
-_start:
+main:
 	; System call: write(fd, buf, count)
 	mov rax, 1				; syscall number for write (1)
 	mov rdi, 1				; file descriptor (1 = stdout)
