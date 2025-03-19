@@ -22,14 +22,14 @@ int main(int argc, char *argv[])
 
 	opc = atoi(argv[1]);
 
-	if (opc <= 0)
+	if (opc < 0)
 	{
 		printf("Error\n");
 		exit(2);
 	}
 
 	for (i = 0; i < opc; i++)
-		printf("%02x ", opcodes[i]);
+		printf(i < opc - 1 ? "%02x " : "%02x", opcodes[i]);
 
 	printf("\n");
 
