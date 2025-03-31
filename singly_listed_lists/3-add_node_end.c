@@ -3,6 +3,14 @@
 #include <stdlib.h>
 #include "lists.h"
 
+/**
+ * _strlen - A custom function to calculate the length of a string
+ *
+ * @str: The string to calculate length for
+ *
+ * Return: The length of the string
+ */
+
 int _strlen(const char *str)
 {
 	int len = 0;
@@ -15,6 +23,15 @@ int _strlen(const char *str)
 
 	return (len);
 }
+
+/**
+ * add_node_end - A function that adds a node at the end of a list
+ *
+ * @head: Pointer to the beginning of the list
+ * @str: The string to append at the list
+ *
+ * Return: The memory address of the new node (or NULL if fail)
+ */
 
 list_t *add_node_end(list_t **head, const char *str)
 {
