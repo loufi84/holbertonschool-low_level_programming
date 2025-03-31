@@ -1,6 +1,16 @@
 #include "lists.h"
 #include <stdlib.h>
 
+/**
+ * insert_dnodeint_at_index - A function to create a node at n position
+ *
+ * @h: The beginning of the list
+ * @idx: The index at which we desire to create a node
+ * @n: The data to insert in the node
+ *
+ * Return: The address of the new node (or NULL if failed)
+ */
+
 dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
 	dlistint_t *new_node, *tmp = *h;
