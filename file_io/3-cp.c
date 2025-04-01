@@ -5,19 +5,49 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+/**
+ * print_err - An helper function that prints errors
+ *
+ * @msg: Message to print
+ * @file: Name of the file
+ * @exit_code: The exit code to return
+ *
+ * Return: Nothing
+ */
+
 void print_err(const char *msg, const char *file, int exit_code)
 {
 	dprintf(STDERR_FILENO, "Error: %s %s\n", msg, file);
 	exit(exit_code);
 }
 
+/**
+ * open_file - An helper function that opens files
+ *
+ * @filename: The name of the file
+ * @flags: The flags wanted
+ * @mode: The creation mode
+ *
+ * Return: A status code (1 for success -1 for failure)
+ */
+
 int open_file(const char *filename, int flags, mode_t mode)
 {
 	int file = open(filename, flags, mode);
+
 	if (file == -1)
 		print_err("Can't access file", filename, (flags & O_CREAT) ? 99 : 98);
 	return (file);
 }
+
+/**
+ * copy_content - Helper function to copy the content of a file to another file
+ *
+ * @file_from: The source file
+ * @file_to: The destination file
+ *
+ * Return: Nothing
+ */
 
 void copy_content(int file_from, int file_to)
 {
@@ -34,6 +64,14 @@ void copy_content(int file_from, int file_to)
 		print_err("Can't read from", "source file", 98);
 }
 
+/**
+ * close_file - Helper function to close files
+ *
+ * @file: The file to close
+ *
+ * Return: Nothing
+ */
+
 void close_file(int file)
 {
 	if (close(file) == -1)
@@ -42,6 +80,15 @@ void close_file(int file)
 		exit(100);
 	}
 }
+
+/**
+ * main - Entry point
+ *
+ * @argc: The arguments count
+ * @argv: The arguments values
+ *
+ * Return: 0 for success
+ */
 
 int main(int argc, char *argv[])
 {
