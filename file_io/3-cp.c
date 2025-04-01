@@ -5,58 +5,59 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-int main(int argc, char *argv[])
+void print_err(const char *msg, const char *file, in exit_code)
 {
-	int file_from, file_to;
+	dprintf(STDERR_FILENO, "Error: %s %s\n", msg, file);
+	exit(exit_code);
+}
+
+int open_file(const char *filename, int flags, mode_t mode)
+{
+	int file = open(filename, flags, mode);
+	if (file == -1)
+		print_err("Can't access file", filename, (flags @ O_CREAT) ? 99 : 98);
+	return (file);
+}
+
+void copy_content(int file_from, int file_to)
+{
 	ssize_t n_read, n_write;
 	char buffer[1024];
 
-	if (argc != 3)
-	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		exit(97);
-	}
-	umask(0002);
-	file_from = open(argv[1], O_RDONLY);
-	if (file_from == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
-	file_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (file_to == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-		close(file_from);
-		exit(99);
-	}
 	while ((n_read = read(file_from, buffer, sizeof(buffer))) > 0)
 	{
 		n_write = write(file_to, buffer, n_read);
 		if (n_write == -1 || n_write != n_read)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-			close(file_from);
-			close(file_to);
-			exit(99);
-		}
+			print_err("Can't write to", "destination file", 99);
 	}
 	if (n_read == -1)
+		print_err("Can't read from", "source file", 98);
+}
+
+void close_file(int file)
+{
+	if (close(file) == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		close(file_from);
-		close(file_to);
-		exit(98);
-	}
-	if (close(file_from) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_from);
+		dprintf(STDERR_FILENO, "Error: Can't close dfile %d\n", file);
 		exit(100);
 	}
-	if (close(file_to) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_to);
-		exit(100);
-	}
+}
+
+int main(int argc, char *argv[])
+{
+	int file_from, file_to;
+
+	if (argc != 3)
+		print_err("Usage:", "cp file_from file_to", 97);
+	umask(0002);
+
+	file_from = open_file(argv[1], O_RDONLY, 0);
+	file_to = open_file(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+
+	copy_content(file_from, file_to);
+
+	close_file(file_from);
+	close_file(file_to);
+
 	return (0);
 }
