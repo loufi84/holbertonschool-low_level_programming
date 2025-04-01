@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-void print_err(const char *msg, const char *file, in exit_code)
+void print_err(const char *msg, const char *file, int exit_code)
 {
 	dprintf(STDERR_FILENO, "Error: %s %s\n", msg, file);
 	exit(exit_code);
@@ -15,7 +15,7 @@ int open_file(const char *filename, int flags, mode_t mode)
 {
 	int file = open(filename, flags, mode);
 	if (file == -1)
-		print_err("Can't access file", filename, (flags @ O_CREAT) ? 99 : 98);
+		print_err("Can't access file", filename, (flags & O_CREAT) ? 99 : 98);
 	return (file);
 }
 
