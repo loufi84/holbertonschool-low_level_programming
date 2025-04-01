@@ -102,7 +102,6 @@ int main(int argc, char *argv[])
 
 	if (argc != 3)
 		print_err("Usage:", "cp file_from file_to", 97);
-	umask(0002);
 
 	file_from = open_file(argv[1], O_RDONLY, 0, 98);
 	file_to = open_file(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664, 99);
