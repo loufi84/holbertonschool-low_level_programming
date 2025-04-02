@@ -5,32 +5,38 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-
-int close_fd(int fd)
-{
-	if (close(fd) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't closse fd %d\n", fd);
-		exit(100);
-	}
-	return (0);
-}
 /**
- * error_exit - A function to handle errors printing
+ * close_fd_exit - A funtion to handle closing exceptions
  *
- * @code: Error code
- * @msg: Message to print
- * @arg: Argument to pass
- * @fd: File descriptor
+ * @fd: The file descriptor causing troubles
  *
  * Return: Nothing
  */
 
+void close_fd_exit(int fd)
+{
+	if (close(fd) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
+}
+
+/**
+ * error_exit - A function to handle errors printing and exit
+ *
+ * @code: Error code
+ * @msg: Message to print
+ * @arg: Argument to pass
+ * @fd: File descriptor to close (can be -1 if none)
+ *
+ * Return: Nothing (exits the program)
+ */
 void error_exit(int code, const char *msg, const char *arg, int fd)
 {
 	dprintf(STDERR_FILENO, "Error: %s %s\n", msg, arg);
 	if (fd != -1)
-		close_fd(fd);
+		close_fd_exit(fd);
 	exit(code);
 }
 
@@ -42,10 +48,9 @@ void error_exit(int code, const char *msg, const char *arg, int fd)
  *
  * Return: 0 for success, various error codes if failure
  */
-
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to, rd, wr, close_ret;
+	int fd_from, fd_to, rd, wr;
 	char buffer[1024];
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
@@ -72,22 +77,11 @@ int main(int argc, char *argv[])
 
 		rd = read(fd_from, buffer, sizeof(buffer));
 		if (rd == -1)
-			error_exit(98, "Can't read from file", argv[1], fd_to);
+		error_exit(98, "Can't read from file", argv[1], fd_to);
 	}
 
-	if (fd_from != -1)
-	{
-		close_ret = close_fd(fd_from);
-		if (close_ret != 0)
-			exit(close_ret);
-	}
-
-	if (fd_to != -1)
-	{
-		close_ret = close_fd(fd_to);
-		if (close_ret != 0)
-			exit(close_ret);
-	}
+	close_fd_exit(fd_from);
+	close_fd_exit(fd_to);
 
 	return (0);
 }
