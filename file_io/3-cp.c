@@ -34,16 +34,16 @@ void print_err(const char *msg, const char *file, int exit_code)
 
 int open_file(const char *filename, int flags, mode_t mode, int exit_code)
 {
-	int file = open(filename, flags, mode);
+	int fd = open(filename, flags, mode);
 
-	if (file == -1)
+	if (fd == -1)
 	{
 		if (exit_code == 98)
 			print_err("Can't read from file", filename, 98);
 		else
 			print_err("Can't write to", filename, 99);
 	}
-	return (file);
+	return (fd);
 }
 
 /**
@@ -51,11 +51,12 @@ int open_file(const char *filename, int flags, mode_t mode, int exit_code)
  *
  * @file_from: The source file
  * @file_to: The destination file
+ * @filename: The name of the file
  *
  * Return: Nothing
  */
 
-void copy_content(int file_from, int file_to)
+void copy_content(int file_from, int file_to, const char *filename)
 {
 	ssize_t n_read, n_write;
 	char buffer[1024];
@@ -64,10 +65,10 @@ void copy_content(int file_from, int file_to)
 	{
 		n_write = write(file_to, buffer, n_read);
 		if (n_write == -1 || n_write != n_read)
-			print_err("Can't write to", "destination file", 99);
+			print_err("Can't write to", filename, 99);
 	}
 	if (n_read == -1)
-		print_err("Can't read from", "source file", 98);
+		print_err("Can't read from file", filename, 98);
 }
 
 /**
@@ -101,12 +102,16 @@ int main(int argc, char *argv[])
 	int file_from, file_to;
 
 	if (argc != 3)
-		print_err("Usage:", "cp file_from file_to", 97);
+	{
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		exit(97);
+	}
 
 	file_from = open_file(argv[1], O_RDONLY, 0, 98);
-	file_to = open_file(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664, 99);
+	file_to = open_file(argv[2], O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR |
+	S_IRGRP | S_IWGRP | S_IROTH, 99);
 
-	copy_content(file_from, file_to);
+	copy_content(file_from, file_to, argv[2]);
 
 	close_file(file_from);
 	close_file(file_to);
