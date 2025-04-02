@@ -5,6 +5,16 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+
+int close_fd(int fd)
+{
+	if (close(fd) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't closse fd %d\n", fd);
+		exit(100);
+	}
+	return (0);
+}
 /**
  * error_exit - A function to handle errors printing
  *
@@ -20,7 +30,7 @@ void error_exit(int code, const char *msg, const char *arg, int fd)
 {
 	dprintf(STDERR_FILENO, "Error: %s %s\n", msg, arg);
 	if (fd != -1)
-		close(fd);
+		close_fd(fd);
 	exit(code);
 }
 
@@ -35,7 +45,7 @@ void error_exit(int code, const char *msg, const char *arg, int fd)
 
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to, rd, wr;
+	int fd_from, fd_to, rd, wr, close_ret;
 	char buffer[1024];
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
@@ -65,11 +75,19 @@ int main(int argc, char *argv[])
 			error_exit(98, "Can't read from file", argv[1], fd_to);
 	}
 
-	if (close(fd_from) == -1)
-		error_exit(100, "Can't close fd", "", fd_from);
+	if (fd_from != -1)
+	{
+		close_ret = close_fd(fd_from);
+		if (close_ret != 0)
+			exit(close_ret);
+	}
 
-	if (close(fd_to) == -1)
-		error_exit(100, "Can't close fd", "", fd_to);
+	if (fd_to != -1)
+	{
+		close_ret = close_fd(fd_to);
+		if (close_ret != 0)
+			exit(close_ret);
+	}
 
 	return (0);
 }
