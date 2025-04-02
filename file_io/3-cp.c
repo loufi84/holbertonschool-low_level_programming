@@ -6,110 +6,63 @@
 #include <sys/stat.h>
 
 /**
- * print_err - An helper function that prints errors
+ * error_exit - A function to handle errors printing
  *
+ * @code: Error code
  * @msg: Message to print
- * @file: Name of the file
- * @exit_code: The exit code to return
+ * @arg: Argument to pass
+ * @fd: File descriptor
  *
  * Return: Nothing
  */
 
-void print_err(const char *msg, const char *file, int exit_code)
+void error_exit(int code, const char *msg, const char *arg, int fd)
 {
-	dprintf(STDERR_FILENO, "Error: %s %s\n", msg, file);
-	exit(exit_code);
-}
-
-/**
- * open_file - An helper function that opens files
- *
- * @filename: The name of the file
- * @flags: The flags wanted
- * @mode: The creation mode
- * @exit_code: The exit code
- *
- * Return: A status code (1 for success -1 for failure)
- */
-
-int open_file(const char *filename, int flags, mode_t mode, int exit_code)
-{
-	int file = open(filename, flags, mode);
-
-	if (file == -1)
-	{
-		if (exit_code == 98)
-			print_err("Can't read from file", filename, 98);
-		else
-			print_err("Can't write to", filename, 99);
-	}
-	return (file);
-}
-
-/**
- * copy_content - Helper function to copy the content of a file to another file
- *
- * @file_from: The source file
- * @file_to: The destination file
- *
- * Return: Nothing
- */
-
-void copy_content(int file_from, int file_to)
-{
-	ssize_t n_read, n_write;
-	char buffer[1024];
-
-	while ((n_read = read(file_from, buffer, sizeof(buffer))) > 0)
-	{
-		n_write = write(file_to, buffer, n_read);
-		if (n_write == -1 || n_write != n_read)
-			print_err("Can't write to", "destination file", 99);
-	}
-	if (n_read == -1)
-		print_err("Can't read from", "source file", 98);
-}
-
-/**
- * close_file - Helper function to close files
- *
- * @file: The file to close
- *
- * Return: Nothing
- */
-
-void close_file(int file)
-{
-	if (close(file) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file);
-		exit(100);
-	}
+	dprintf(STDERR_FILENO, "Error: %s %s\n", msg, arg);
+	if (fd != -1)
+		close(fd);
+	exit(code);
 }
 
 /**
  * main - Entry point
  *
- * @argc: The arguments count
- * @argv: The arguments values
+ * @argc: Argument count
+ * @argv: Values of arguments
  *
- * Return: 0 for success
+ * Return: 0 for success, various error codes if failure
  */
 
 int main(int argc, char *argv[])
 {
-	int file_from, file_to;
+	int fd_from, fd_to, rd;
+	char buffer[1024];
+	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
 	if (argc != 3)
-		print_err("Usage:", "cp file_from file_to", 97);
+		error_exit(97, "Usage:", "cp file_from file_to", -1);
 
-	file_from = open_file(argv[1], O_RDONLY, 0, 98);
-	file_to = open_file(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664, 99);
+	fd_from = open(argv[1], O_RDONLY);
+	if (fd_from == -1)
+		error_exit(98, "Can't read from file", argv[1], -1);
 
-	copy_content(file_from, file_to);
+	fd_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, mode);
+	if (fd_to == -1)
+		error_exit(99, "Can't write to", argv[2], fd_from);
 
-	close_file(file_from);
-	close_file(file_to);
+	rd = read(fd_from, buffer, sizeof(buffer));
+	while (rd > 0)
+		if (write(fd_to, buffer, rd) != rd)
+			error_exit(99, "Can't write to", argv[2], fd_to);
+
+	if (rd == -1)
+		error_exit(98, "Can't read from file", argv[1], fd_to);
+
+	if (close(fd_from) == -1)
+		error_exit(100, "Can't cloe fd", "", fd_from);
+
+	if (close(fd_to) == -1)
+		error_exit(100, "Can't close fd", "", fd_to);
 
 	return (0);
 }
