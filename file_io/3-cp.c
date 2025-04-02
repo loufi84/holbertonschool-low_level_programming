@@ -51,15 +51,19 @@ int main(int argc, char *argv[])
 		error_exit(99, "Can't write to", argv[2], fd_from);
 
 	rd = read(fd_from, buffer, sizeof(buffer));
-	while ((rd = read(fd_from, buffer, sizeof(buffer))) > 0)
+	if (rd == -1)
+		error_exit(98, "Can't read from file", argv[1], fd_to);
+
+	while (rd > 0)
 	{
 		wr = write(fd_to, buffer, rd);
 		if (wr != rd)
 			error_exit(99, "Can't write to", argv[2], fd_to);
-	}
 
-	if (rd == -1)
-		error_exit(98, "Can't read from file", argv[1], fd_to);
+		rd = read(fd_from, buffer, sizeof(buffer));
+		if (rd == -1)
+			error_exit(98, "Can't read from file", argv[1], fd_to);
+	}
 
 	if (close(fd_from) == -1)
 		error_exit(100, "Can't close fd", "", fd_from);
