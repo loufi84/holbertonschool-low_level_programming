@@ -16,11 +16,11 @@
 
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t bytes_r, bytes_w, tot_w = 0;
+	ssize_t bytes_r, bytes_w;
 	int file;
 	char *buffer;
 
-	if (!filename || letters == 0)
+	if (!filename)
 		return (0);
 	file = open(filename, O_RDONLY);
 	if (file == -1)
@@ -39,16 +39,12 @@ ssize_t read_textfile(const char *filename, size_t letters)
 		return (0);
 	}
 
-	while (tot_w < bytes_r)
+	bytes_w = write(STDOUT_FILENO, buffer, bytes_r);
+	if (bytes_w == -1 || bytes_w != bytes_r)
 	{
-		bytes_w = write(1, buffer + tot_w, bytes_r - tot_w);
-		if (bytes_w == -1)
-		{
-			close(file);
-			free(buffer);
-			return (0);
-		}
-		tot_w += bytes_w;
+		close(file);
+		free(buffer);
+		return (0);
 	}
 	close(file);
 	free(buffer);
