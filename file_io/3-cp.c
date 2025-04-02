@@ -35,8 +35,7 @@ void error_exit(int code, const char *msg, const char *arg, int fd)
 
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to;
-	ssize_t bytes_read, bytes_written;
+	int fd_from, fd_to, rd;
 	char buffer[1024];
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
@@ -51,15 +50,13 @@ int main(int argc, char *argv[])
 	if (fd_to == -1)
 		error_exit(99, "Can't write to", argv[2], fd_from);
 
-	bytes_read = read(fd_from, buffer, sizeof(buffer));
-	while (bytes_read > 0)
-	{
-		bytes_written = write(fd_to, buffer, bytes_read);
-		if (bytes_written == -1 || bytes_written != bytes_read)
+	rd = read(fd_from, buffer, sizeof(buffer));
+	while (rd > 0)
+		if (write(fd_to, buffer, rd) != rd)
 			error_exit(99, "Can't write to", argv[2], fd_to);
-	}
-	if (bytes_read == -1)
-		error_exit(98, "Can't read from file", argv[1], fd_from);
+
+	if (rd == -1)
+		error_exit(98, "Can't read from file", argv[1], fd_to);
 
 	if (close(fd_from) == -1)
 		error_exit(100, "Can't cloe fd", "", fd_from);
