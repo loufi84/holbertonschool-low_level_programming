@@ -1,4 +1,8 @@
 #include "main.h"
+#include <elf.h>
+#include <stdio.h>
+#include <unistd.h>
+
 
 /**
  * check_elf - Checks if a file is an ELF file and prints magic numbers
