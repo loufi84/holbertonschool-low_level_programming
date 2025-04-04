@@ -9,9 +9,9 @@ ssize_t read_textfile(const char *filename, size_t letters);
 int create_file(const char *filename, char *text_content);
 int append_text_to_file(const char *filename, char *text_content);
 void print_error(const char *msg);
-int validate_and_read_header(int fd, elf_header_t *header);
-void print_identification(unsigned char *e_ident);
-void print_other_info(elf_header_t *header);
+void display_elf_header(int fd);
+const char *get_osabi_string(unsigned char osabi);
+const char *get_type_string(uint16_t type);
 
 /**
  * struct elf_header - Represents the ELF header structure.
