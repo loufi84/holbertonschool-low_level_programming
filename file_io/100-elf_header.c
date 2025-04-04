@@ -103,13 +103,7 @@ void display_elf_header(int fd)
 	printf("  ABI Version:                       %d\n", header.e_ident[EI_ABIVERSION]);
 	printf("  Type:                              %s\n",
 		   get_type_string(header.e_type));
-	printf("  Entry point address:               ");
-	if (header.e_ident[EI_CLASS] == ELFCLASS32)
-		printf("%#x\n", (unsigned int)header.e_entry);
-	else if (header.e_ident[EI_CLASS] == ELFCLASS64)
-		printf("%#lx\n", header.e_entry);
-	else
-		printf("<unknown>\n");
+	printf("  Entry point address:               %#lx\n", header.e_entry);
 }
 
 /**
